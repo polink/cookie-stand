@@ -4,12 +4,28 @@ body {
   color: bisque;
 }
 h1 {
+  width: 400px;
   font-family: "Chilanka", "Courier New";
   color: aliceblue;
+}
+.info {
+  float: left;
 }
 #dataOne {
   font-family: "Arial", "Verdana", "Helvetica";
   background-color: salmon;
   color: orange;
   padding: 1%;
+}
+em {
+  font-family: 'Notable';
+  background-color: yellow;
+  color: black;
+}
+.header {
+  width: 150px;
+}
+
+.locations {
+  width: 150px;
 }
