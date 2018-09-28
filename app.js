@@ -45,12 +45,13 @@ var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.cookSold = []; //# of cookies sold at this store per hour
 };
 
-Store.prototype.calcCustPerHour = function(){
+// one hour of salcooks sold, produced by random number
+Store.prototype.calcCustPerHour = function(){ 
   var randomAmount = Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
-  return Math.round((randomAmount) * this.avgCookPerSale);
+  return Math.round((randomAmount) * this.avgCook);
 };
 
-Store.prototype.calcCookSold = function(){ //calculating cookies sold per hour
+Store.prototype.calcCookSold = function(){ //calculating cookies sold each hour
   for(var i = 0; i < 15; i++){
     /* other students did this.hoursOpen to calculate how many hours/day store was open */
     this.cookSold.push(this.calcCustPerHour());
@@ -60,20 +61,21 @@ Store.prototype.calcCookSold = function(){ //calculating cookies sold per hour
 Store.prototype.renderHours = function(){
   this.calcCookSold();
 
-  var storesContainer = document.getElementById('stores');
-  console.log(storesContainer);
+
+  var storesContainer = document.getElementById('cookTable');
+    //console.log(storesContainer);
   var headerEl = document.createElement('h2');
-  headerEl.className = 'blue';
-  console.log(headerEl);
-  headerEl.textContent = this.name;
-  storesContainer.appendChild(headerEl);
+    headerEl.className = 'blue';
+    //console.log(headerEl);
+    headerEl.textContent = this.name;
+    storesContainer.appendChild(headerEl);
 
   var ulEl = document.createElement('ul'); //create an element
   console.log(this.cookSold);
 
   for(var i in this.cookSold){ //give ul content
   /* same as for(var i = 0; i < this.cookSold.length; i++) */
-    var listItemEl = document.createElement('li');
+  var listItemEl = document.createElement('li');
     listItemEl.textContent = this.cookSold[i];
     ulEl.appendChild(listItemEl);
 
@@ -83,8 +85,62 @@ Store.prototype.renderHours = function(){
   storesContainer.appendChild(ulEl);
 };
 
-Store.renderHours();
-console.log(Store.calcCustPerHour());
+// function that renders all the stores
+var renderAllStores = function(){
+  seaTac.renderHours();
+};
 
-var seaTac = new Store('SeaTac Airport Store',1,50,2,[20,10,5]);
+// store creation
+var seaTac = new Store('SeaTac Airport Store',1,50,2,[20,10,5,1]);
 console.log(seaTac);
+
+// Store.prototype.renderAsTableRow = function () {
+//   //calculate the data we need
+//   this.calcCookSold();
+
+//   //Step 1. Reference a container element
+//   var storeTableEl = document.getElementById('cookTable');
+  
+//   //Step 2. Make a new table row (tr) element
+
+//   var trEl = document.createElement('tr');
+
+//   //Step 3. Give element content, a table row takes in table headers, and table data as content
+
+
+//   //Give table row a table header element
+//   var thEl = document.createElement('th'); //table header
+//   thEl.textContent = this.name;
+//   trEl.appendChiled(thEl); //append table header to row
+
+//   //Give the table row table data about the min customers
+//   var tdEl = document.createElement('td');
+//   tdEl.textContent = this.minCust;
+//   trEl.appendChild(tdEl);
+
+//   //Give the table row a td about the max customers
+//   tdEl = document.createElement('td');
+//   tdEl.textContent = this.minCust;
+//   trEl.appendChild(tdEl);
+
+//   //Give the table row a td about the avg# of purchased cookies per customer
+//   tdEl = document.createElement('td');
+//   tdEl.textContent = this.avgCookPerSale;
+//   trEl.appendChild(tdEl);
+
+//   //Step Append the row we have been building to the table itself
+//   storeTableEl.appendChild(trEl);
+
+// };
+
+
+//=================
+//Function to render all our objects
+//Good to put them in an array and just .push everything
+var allSalCookStores = [];
+//var pandamonium = new PandaStore('Pandamonium the Panda Emporium', 3, 12, .8, 15);
+//seaTac.renderAsTableRow();
+//"allPandaStore.push(pandasRUs);"
+
+/*"pandaSmart.renderAsTableRow(){"
+  for(i = 0; i < )*/
