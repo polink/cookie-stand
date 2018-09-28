@@ -61,86 +61,50 @@ Store.prototype.calcCookSold = function(){ //calculating cookies sold each hour
 Store.prototype.renderHours = function(){
   this.calcCookSold();
 
-
+  // 1. container element
   var storesContainer = document.getElementById('cookTable');
-    //console.log(storesContainer);
-  var headerEl = document.createElement('h2');
-    headerEl.className = 'blue';
-    //console.log(headerEl);
-    headerEl.textContent = this.name;
-    storesContainer.appendChild(headerEl);
 
-  var ulEl = document.createElement('ul'); //create an element
-  console.log(this.cookSold);
-
-  for(var i in this.cookSold){ //give ul content
-  /* same as for(var i = 0; i < this.cookSold.length; i++) */
-  var listItemEl = document.createElement('li');
-    listItemEl.textContent = this.cookSold[i];
-    ulEl.appendChild(listItemEl);
-
-  }
-
-  // append the ul
-  storesContainer.appendChild(ulEl);
-};
-
-// function that renders all the stores
-var renderAllStores = function(){
-  seaTac.renderHours();
-};
-
-// store creation
-var seaTac = new Store('SeaTac Airport Store',1,50,2,[20,10,5,1]);
-console.log(seaTac);
-
-// Store.prototype.renderAsTableRow = function () {
-//   //calculate the data we need
-//   this.calcCookSold();
-
-//   //Step 1. Reference a container element
-//   var storeTableEl = document.getElementById('cookTable');
+  // 2. new element // can see not appending to starting table.
+  //var headerEl = document.createElement('h2');
+  var trEl = document.createElement('tr');
+  // 3. Give element content
+  //  headerEl.textContent = this.name;
+  var thEl = document.createElement('th'); //table header
+  thEl.textContent = this.name;
+  trEl.appendChild(thEl); //append table header to row
+  //append mincust to tds
+  for (var i in this.cookSold){
+  var tdEl = document.createElement('td');
+  tdEl.textContent = this.cookSold[i];
+  trEl.appendChild(tdEl);
   
-//   //Step 2. Make a new table row (tr) element
+  //giving table ro td of avg# of purchased cookies per cust
 
-//   var trEl = document.createElement('tr');
+  // tdEl = document.createElement('td');
+  // tdEl.textContent = this.avgCook;
+  // trEl.appendChild(tdEl);
+  };
+  // 4. append newly created element to container
+  storesContainer.appendChild(trEl);
 
-//   //Step 3. Give element content, a table row takes in table headers, and table data as content
-
-
-//   //Give table row a table header element
-//   var thEl = document.createElement('th'); //table header
-//   thEl.textContent = this.name;
-//   trEl.appendChiled(thEl); //append table header to row
-
-//   //Give the table row table data about the min customers
-//   var tdEl = document.createElement('td');
-//   tdEl.textContent = this.minCust;
-//   trEl.appendChild(tdEl);
-
-//   //Give the table row a td about the max customers
-//   tdEl = document.createElement('td');
-//   tdEl.textContent = this.minCust;
-//   trEl.appendChild(tdEl);
-
-//   //Give the table row a td about the avg# of purchased cookies per customer
-//   tdEl = document.createElement('td');
-//   tdEl.textContent = this.avgCookPerSale;
-//   trEl.appendChild(tdEl);
-
-//   //Step Append the row we have been building to the table itself
-//   storeTableEl.appendChild(trEl);
-
-// };
-
-
+};
 //=================
-//Function to render all our objects
-//Good to put them in an array and just .push everything
-var allSalCookStores = [];
-//var pandamonium = new PandaStore('Pandamonium the Panda Emporium', 3, 12, .8, 15);
-//seaTac.renderAsTableRow();
-//"allPandaStore.push(pandasRUs);"
 
-/*"pandaSmart.renderAsTableRow(){"
-  for(i = 0; i < )*/
+// Function that renders all the stores
+//Good to put them in an array and just .push everything
+var allCookStores = [];
+var renderAllStores = function(){
+  allCookStores.push(pikes.renderHours(),seaTac.renderHours(),seaCtr.renderHours(),alki.renderHours()); 
+};
+
+// store constructor data
+var pikes = new Store('1st and Pike',23,65,6.3,[]);
+var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
+var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
+var alki = new Store('Alki',2,16,4.6,[]);
+
+
+
+
+
+
