@@ -1,9 +1,15 @@
 'use strict';
 
+//overview of table construction
+// 1. container variable
+// 2. new element
+// 3. Give element content
+// 4. append newly created element to container
+
 //Array for hours open
 //STRETCH: make the # of hours dynamic
 //need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
-var hoursOpen = [' ','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
+var hoursOpen = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
 
 //Store constructor function
 var Store = function(name, minCust, maxCust, avgCook, cookSold){
@@ -13,38 +19,41 @@ var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.avgCook = avgCook; //# of average cookies sold per customer
   this.cookSold = []; //# of cookies sold at this store per hour
 };
-var storesContainer = document.getElementById('cookTable');
-var trEl = document.createElement('tr');
 
-for(var i in hoursOpen.length){
-  var thEl = document.createElement('th');
-  var tdEl = document.createElement('td');
-  //thEl = document.createElement('th');
-  tdEl.textContent = hoursOpen[i];
-  trEl.appendChild(tdEl);
-}
-storesContainer.appendChild(trEl);
+// var storesContainer = document.getElementById('cookTable');
+
+// for(var i in hoursOpen.length){
+//   var thEl = document.createElement('th');
+ 
+//   //thEl = document.createElement('th');
+//   tdEl.textContent = hoursOpen[i];
+//   trEl.appendChild(tdEl);
+// }
+// storesContainer.appendChild(trEl);
 
 // function to do hours in first line of cookTable
-// var headerHours = function () {
-//   // 1. container element
-//   var storesContainer = document.getElementById('cookTable');
-  
-//   // 2. new elements
-//   var trEl = document.createElement('tr');
-//   var thEl = document.createElement('tr');
-//   var theadEl = document.createElement('thead');
+var headerHours = function () {
+  // 1. container variable
+  var storesContainer = document.getElementById('cookTable');
 
-//   theadEl.appendChild(trEl);
-//   trEl.appendChild(thEl);
-//   // 3. give element content
-//   for(var i in hoursOpen.length){
-//     thEl = document.createElement('th');
-//     thEl.textContent = hoursOpen[i];
-//     trEl.appendChild(thEl);
-//   }
-//   storesContainer.appendChild(trEl);
-// };
+  
+
+  // 2. new elements
+  var theadEl = document.createElement('thead');
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  var tdEl = document.createElement('td');
+  
+  theadEl.appendChild(trEl);
+  trEl.appendChild(thEl);
+  // 3. give element content
+  for(var i in hoursOpen.length){
+    thEl.textContent = hoursOpen[i];
+    thEl.appendChild(thEl);
+  }
+  // 4. append newly created element to container
+  storesContainer.appendChild(trEl);
+};
 
 // one hour of salcooks sold, produced by random number
 Store.prototype.calcCustPerHour = function(){
@@ -63,7 +72,7 @@ Store.prototype.calcCookSold = function(){ //calculating cookies sold each hour
 Store.prototype.cookSoldData = function(){
   this.calcCookSold();
 
-  // 1. container element
+  // 1. container variable
   var storesContainer = document.getElementById('cookTable');
 
   // 2. new element
@@ -86,7 +95,15 @@ Store.prototype.cookSoldData = function(){
 
 //Function to figure out Total row
 var totals = function(){
+  var storesContainer = document.getElementById('cooktable');
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
 
+  for(var i in Store.calcCookSold/* total of all stores[i] */) {
+    tdEl.textContent = this.cookSold[i];
+    trEl.appendChild(tdEl);
+  }
+  storesContainer.appendChild(trEl);
 };
 
 //=======================
@@ -103,5 +120,9 @@ var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
 var alki = new Store('Alki',2,16,4.6,[]);
 
 // function calls
-// headerHours();
+headerHours();
 renderAllStores();
+//totals();
+
+// Forms
+
