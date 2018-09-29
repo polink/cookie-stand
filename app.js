@@ -13,24 +13,38 @@ var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.avgCook = avgCook; //# of average cookies sold per customer
   this.cookSold = []; //# of cookies sold at this store per hour
 };
+var storesContainer = document.getElementById('cookTable');
+var trEl = document.createElement('tr');
+
+for(var i in hoursOpen.length){
+  var thEl = document.createElement('th');
+  var tdEl = document.createElement('td');
+  //thEl = document.createElement('th');
+  tdEl.textContent = hoursOpen[i];
+  trEl.appendChild(tdEl);
+}
+storesContainer.appendChild(trEl);
 
 // function to do hours in first line of cookTable
-var headerHours = function () {
-  var trEl = document.createElement('tr');
-  var thEl = document.createElement('tr');
-  var storesContainer = document.getElementById('cookTable');
-  var theadEl = document.createElement('thead');
-  trEl.appendChild(thEl);
-    
+// var headerHours = function () {
+//   // 1. container element
+//   var storesContainer = document.getElementById('cookTable');
+  
+//   // 2. new elements
+//   var trEl = document.createElement('tr');
+//   var thEl = document.createElement('tr');
+//   var theadEl = document.createElement('thead');
 
-  theadEl.appendChild(trEl);
-  for(var i in hoursOpen.length){
-    thEl = document.createElement('th');
-    thEl.textContent = hoursOpen[i];
-    trEl.appendChild(thEl);
-  }
-  storesContainer.appendChild(trEl);
-};
+//   theadEl.appendChild(trEl);
+//   trEl.appendChild(thEl);
+//   // 3. give element content
+//   for(var i in hoursOpen.length){
+//     thEl = document.createElement('th');
+//     thEl.textContent = hoursOpen[i];
+//     trEl.appendChild(thEl);
+//   }
+//   storesContainer.appendChild(trEl);
+// };
 
 // one hour of salcooks sold, produced by random number
 Store.prototype.calcCustPerHour = function(){
@@ -46,7 +60,7 @@ Store.prototype.calcCookSold = function(){ //calculating cookies sold each hour
 };
 
 // make function for cookSold data in each cell
-Store.prototype.renderHours = function(){
+Store.prototype.cookSoldData = function(){
   this.calcCookSold();
 
   // 1. container element
@@ -79,7 +93,7 @@ var totals = function(){
 // Function that renders all the stores
 var allCookStores = [];
 var renderAllStores = function(){
-  allCookStores.push(pikes.renderHours(),seaTac.renderHours(),seaCtr.renderHours(),alki.renderHours()); 
+  allCookStores.push(pikes.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData()); 
 };
 
 // store constructor data
@@ -87,3 +101,7 @@ var pikes = new Store('1st and Pike',23,65,6.3,[]);
 var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
 var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
 var alki = new Store('Alki',2,16,4.6,[]);
+
+// function calls
+// headerHours();
+renderAllStores();
