@@ -1,5 +1,10 @@
 'use strict';
 
+//Array for hours open
+//STRETCH: make the # of hours dynamic
+//need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
+var hoursOpen = [' ','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
+
 //Store constructor function
 var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.name = name; //name of store
@@ -9,8 +14,26 @@ var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.cookSold = []; //# of cookies sold at this store per hour
 };
 
+// function to do hours in first line of cookTable
+var headerHours = function () {
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('tr');
+  var storesContainer = document.getElementById('cookTable');
+  var theadEl = document.createElement('thead');
+  trEl.appendChild(thEl);
+    
+
+  theadEl.appendChild(trEl);
+  for(var i in hoursOpen.length){
+    thEl = document.createElement('th');
+    thEl.textContent = hoursOpen[i];
+    trEl.appendChild(thEl);
+  }
+  storesContainer.appendChild(trEl);
+};
+
 // one hour of salcooks sold, produced by random number
-Store.prototype.calcCustPerHour = function(){ 
+Store.prototype.calcCustPerHour = function(){
   var randomAmount = Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust);
   return Math.round((randomAmount) * this.avgCook);
 };
@@ -22,13 +45,14 @@ Store.prototype.calcCookSold = function(){ //calculating cookies sold each hour
   }
 };
 
+// make function for cookSold data in each cell
 Store.prototype.renderHours = function(){
   this.calcCookSold();
 
   // 1. container element
   var storesContainer = document.getElementById('cookTable');
 
-  // 2. new element // can see not appending to starting table.
+  // 2. new element
   var trEl = document.createElement('tr');
 
   // 3. Give element content
@@ -36,18 +60,21 @@ Store.prototype.renderHours = function(){
   thEl.textContent = this.name;
   trEl.appendChild(thEl); //append table header to row
 
-
-  for (var i in this.cookSold){   //append minCust to tds
-  var tdEl = document.createElement('td');
-  tdEl.textContent = this.cookSold[i];
-  trEl.appendChild(tdEl);
-  
-  //giving table ro td of avg# of purchased cookies per cust
-
+  //giving table td of avg# of purchased cookies per cust
+  for (var i in this.cookSold){ //append minCust to tds
+    var tdEl = document.createElement('td');
+    tdEl.textContent = this.cookSold[i];
+    trEl.appendChild(tdEl);
+  }
   // 4. append newly created element to container
   storesContainer.appendChild(trEl);
+};
+
+//Function to figure out Total row
+var totals = function(){
 
 };
+
 //=======================
 // Function that renders all the stores
 var allCookStores = [];
