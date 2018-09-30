@@ -126,3 +126,22 @@ renderAllStores();
 
 // Forms
 
+var handleMakeStore = function(exampleStore){
+  exampleStore.preventDefault();
+  exampleStore.stopPropagation();
+  // putting down sample variables for now, though I figure I can get better integration with more direct calls to Store properties.
+  var storeName = Store.target['store-name'].value;
+  var minCustomers = Store.target['min-customers'].value;
+  var maxCustomers = Store.target['max-customers'].value;
+  var averageCookies = Store.target['average-cookies'].value;
+  console.log(this.name, this.minCust, this.maxCust, this.avgCook);
+  var newStore = Store(name, minCust, maxCust, avgCook);
+  renderAllStores().push;
+};
+// likely need other code to make the table footer/total dynamic and populate new numbers that include the new store
+
+var storeForm = document.getElementById('newCookStoreForm');
+
+storeForm.addEventListener('submit', handleMakeStore);
+
+
