@@ -20,6 +20,9 @@ var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.cookSold = []; //# of cookies sold at this store per hour
 };
 
+var storeForm = document.getElementById('newCookStoreForm');
+
+
 // var storesContainer = document.getElementById('cookTable');
 
 // for(var i in hoursOpen.length){
@@ -116,6 +119,7 @@ var renderAllStores = function(){
 // store constructor data
 var pikes = new Store('1st and Pike',23,65,6.3,[]);
 var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
+var capHill = new Store('Capitol Hill',20,38,2.3,[]);
 var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
 var alki = new Store('Alki',2,16,4.6,[]);
 
@@ -130,18 +134,15 @@ var handleMakeStore = function(exampleStore){
   exampleStore.preventDefault();
   exampleStore.stopPropagation();
   // putting down sample variables for now, though I figure I can get better integration with more direct calls to Store properties.
-  var storeName = Store.target['store-name'].value;
-  var minCustomers = Store.target['min-customers'].value;
-  var maxCustomers = Store.target['max-customers'].value;
-  var averageCookies = Store.target['average-cookies'].value;
-  console.log(this.name, this.minCust, this.maxCust, this.avgCook);
-  var newStore = Store(name, minCust, maxCust, avgCook);
-  renderAllStores().push;
+  var storeName = exampleStore.target.storeName.value;
+  var minCustomers = parseInt(exampleStore.target.minCustomers.value);
+  var maxCustomers = parseInt(exampleStore.target.maxCustomers.value);
+  var averageCookies = parseInt(exampleStore.target.averageCookies.value);
+  console.log(storeName, minCustomers, maxCustomers, averageCookies);
+  new Store(storeName, minCustomers, maxCustomers, averageCookies);
+//  allCookStores.push(this.cookSoldData);
 };
 // likely need other code to make the table footer/total dynamic and populate new numbers that include the new store
 
-var storeForm = document.getElementById('newCookStoreForm');
-
 storeForm.addEventListener('submit', handleMakeStore);
-
 
