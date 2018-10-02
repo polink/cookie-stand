@@ -9,8 +9,16 @@
 //Array for hours open
 //STRETCH: make the # of hours dynamic
 //need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
-var hoursOpen = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
+var hoursOpen = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p']; 
 
+/*10-01 notes from class
+- change name of hoursOpen array to something like headerRow
+- commenting is great!
+- steps excellent! rendering 'li's can backfire with plugging in new elements in rendering
+- fixing headerHours, likely will have to rename as well
+    -fixing variable name for thEl
+
+*/
 //Store constructor function
 var Store = function(name, minCust, maxCust, avgCook, cookSold){
   this.name = name; //name of store
@@ -39,23 +47,23 @@ var headerHours = function () {
   // 1. container variable
   var storesContainer = document.getElementById('cookTable');
 
-  
+ 
 
   // 2. new elements
   var theadEl = document.createElement('thead');
   var trEl = document.createElement('tr');
   var thEl = document.createElement('th');
-  var tdEl = document.createElement('td');
-  
-  theadEl.appendChild(trEl);
-  trEl.appendChild(thEl);
+
   // 3. give element content
-  for(var i in hoursOpen.length){
+  for(var i in hoursOpen){
+    thEl = document.createElement('th');  //reassigning variable here essential! "making a 'new' poster instead of rewriting the same one" reusing a variable requires a reassignment
     thEl.textContent = hoursOpen[i];
-    thEl.appendChild(thEl);
+    //console.log(hoursOpen[i]);
+    trEl.appendChild(thEl);
   }
-  // 4. append newly created element to container
-  storesContainer.appendChild(trEl);
+  // 4. append newly created elements to container
+  theadEl.appendChild(trEl);
+  storesContainer.appendChild(theadEl);
 };
 
 // one hour of salcooks sold, produced by random number
@@ -113,13 +121,13 @@ var totals = function(){
 // Function that renders all the stores
 var allCookStores = [];
 var renderAllStores = function(){
-  allCookStores.push(pikes.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData()); 
+  allCookStores.push(pikes.cookSoldData(), capHill.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData());
 };
 
 // store constructor data
 var pikes = new Store('1st and Pike',23,65,6.3,[]);
-var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
 var capHill = new Store('Capitol Hill',20,38,2.3,[]);
+var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
 var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
 var alki = new Store('Alki',2,16,4.6,[]);
 
