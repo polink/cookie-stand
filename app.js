@@ -10,6 +10,7 @@
 //STRETCH: make the # of hours dynamic
 //need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
 var hoursOpen = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p']; 
+var allStoreContainer = [];
 
 /*10-01 notes from class
 - change name of hoursOpen array to something like headerRow
@@ -17,15 +18,18 @@ var hoursOpen = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a',
 - steps excellent! rendering 'li's can backfire with plugging in new elements in rendering
 - fixing headerHours, likely will have to rename as well
     -fixing variable name for thEl
-
+- think about code in English
+- adding container push to constructor helps with DRY
 */
 //Store constructor function
-var Store = function(name, minCust, maxCust, avgCook, cookSold){
+var Store = function(name, minCust, maxCust, avgCook){
   this.name = name; //name of store
   this.minCust = minCust; //minimum customers per hour
   this.maxCust = maxCust; //maximum customers per hour
   this.avgCook = avgCook; //# of average cookies sold per customer
   this.cookSold = []; //# of cookies sold at this store per hour
+
+  allStoreContainer.push(this);
 };
 
 var storeForm = document.getElementById('newCookStoreForm');
@@ -138,17 +142,17 @@ renderAllStores();
 
 // Forms
 
-var handleMakeStore = function(exampleStore){
-  exampleStore.preventDefault();
-  exampleStore.stopPropagation();
+var handleMakeStore = function(eventStore){
+  eventStore.preventDefault(); //prevents page from refreshing
+  eventStore.stopPropagation();
   // putting down sample variables for now, though I figure I can get better integration with more direct calls to Store properties.
-  var storeName = exampleStore.target.storeName.value;
-  var minCustomers = parseInt(exampleStore.target.minCustomers.value);
-  var maxCustomers = parseInt(exampleStore.target.maxCustomers.value);
-  var averageCookies = parseInt(exampleStore.target.averageCookies.value);
-  console.log(storeName, minCustomers, maxCustomers, averageCookies);
-  new Store(storeName, minCustomers, maxCustomers, averageCookies);
-//  allCookStores.push(this.cookSoldData);
+  var storeName = eventStore.target.storeName.value;
+  var minCustomers = parseInt(eventStore.target.minCustomers.value);
+  var maxCustomers = parseInt(eventStore.target['max-Customers'].value);
+  var averageCookies = parseInt(eventStore.target.averageCookies.value);
+  var newStore = new Store(storeName, minCustomers, maxCustomers, averageCookies);
+  // allStoreContainer.push(newStore);
+  console.log(allCookStores);
 };
 // likely need other code to make the table footer/total dynamic and populate new numbers that include the new store
 
