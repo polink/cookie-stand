@@ -9,8 +9,9 @@
 //Array for hours open
 //STRETCH: make the # of hours dynamic
 //need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
-var hoursOpen = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p']; 
-var allStoreContainer = [];
+var headerRow = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
+var allStoreContainer = []; //new container function - better naming
+var allCookStores = []; //old container function
 
 /*10-01 notes from class
 - change name of hoursOpen array to something like headerRow
@@ -20,6 +21,7 @@ var allStoreContainer = [];
     -fixing variable name for thEl
 - think about code in English
 - adding container push to constructor helps with DRY
+- pushes to container, but doesn't add newest data
 */
 //Store constructor function
 var Store = function(name, minCust, maxCust, avgCook){
@@ -46,7 +48,7 @@ var storeForm = document.getElementById('newCookStoreForm');
 // }
 // storesContainer.appendChild(trEl);
 
-// function to do hours in first line of cookTable
+// function to do header in first line of cookTable
 var headerHours = function () {
   // 1. container variable
   var storesContainer = document.getElementById('cookTable');
@@ -59,10 +61,10 @@ var headerHours = function () {
   var thEl = document.createElement('th');
 
   // 3. give element content
-  for(var i in hoursOpen){
+  for(var i in headerRow){
     thEl = document.createElement('th');  //reassigning variable here essential! "making a 'new' poster instead of rewriting the same one" reusing a variable requires a reassignment
-    thEl.textContent = hoursOpen[i];
-    //console.log(hoursOpen[i]);
+    thEl.textContent = headerRow[i];
+    //console.log(headerRow[i]);
     trEl.appendChild(thEl);
   }
   // 4. append newly created elements to container
@@ -123,10 +125,14 @@ var totals = function(){
 
 //=======================
 // Function that renders all the stores
-var allCookStores = [];
 var renderAllStores = function(){
-  allCookStores.push(pikes.cookSoldData(), capHill.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData());
+  allStoreContainer.push(pikes.cookSoldData(), capHill.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData());
 };
+
+var renderNewStore = function(){
+  allStoreContainer.push((allStoreContainer.length - 1).cookSoldData());
+};
+
 
 // store constructor data
 var pikes = new Store('1st and Pike',23,65,6.3,[]);
@@ -151,8 +157,11 @@ var handleMakeStore = function(eventStore){
   var maxCustomers = parseInt(eventStore.target['max-Customers'].value);
   var averageCookies = parseInt(eventStore.target.averageCookies.value);
   var newStore = new Store(storeName, minCustomers, maxCustomers, averageCookies);
-  // allStoreContainer.push(newStore);
   console.log(allCookStores);
+
+  // need to add sub-function or command that adds new store and appends to bottom of table, while working dynamically with the Total row
+  // renderNewStore();
+  allStoreContainer.push(newStore.cookSoldData());
 };
 // likely need other code to make the table footer/total dynamic and populate new numbers that include the new store
 
