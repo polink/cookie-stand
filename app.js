@@ -11,7 +11,7 @@
 //need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
 var headerRow = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
 var allStoreContainer = []; //new container function - better naming
-//var allCookStores = []; //old container function
+var allCookStores = [pikes,seaTac,seaCtr,capHill,alki];
 
 /*10-01 notes from class
 - change name of hoursOpen array to something like headerRow
@@ -32,6 +32,7 @@ var Store = function(name, minCust, maxCust, avgCook){
   this.cookSold = []; //# of cookies sold at this store per hour
 
   allStoreContainer.push(this);
+//  allCookStores.push(this.name);
 };
 
 var storeForm = document.getElementById('newCookStoreForm');
@@ -110,28 +111,7 @@ Store.prototype.cookSoldData = function(){
   storesContainer.appendChild(trEl);
 };
 
-//Function to figure out Total row
-var totals = function(){
-  var storesContainer = document.getElementById('cookTable');
-  var tfootEl = document.createElement('tfoot');
-  var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Totals';
 
-  var tdEl = document.createElement('td');
-
-  for(var i = 0; i < 15; i++) { // help from Nicole
-    var totalCookSold = 0;
-    for(var x = 0; x < allStoreContainer.length; x++){
-      totalCookSold = allStoreContainer[x].cookSold[i] + totalCookSold;
-    }
-    tdEl = document.createElement('td');
-    tdEl.textContent = totalCookSold;
-    tfootEl.appendChild(trEl);
-    trEl.appendChild(tdEl);
-  }
-  // storesContainer.appendChild(trEl);
-};
 
 //=======================
 // Function that renders all the stores
@@ -150,6 +130,30 @@ var capHill = new Store('Capitol Hill',20,38,2.3,[]);
 var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
 var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
 var alki = new Store('Alki',2,16,4.6,[]);
+
+//Function to figure out Total row
+var totals = function(){
+  var storesContainer = document.getElementById('cookTable');
+  var tfootEl = document.createElement('tfoot');
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Totals';
+  tfootEl.appendChild(thEl);
+  
+  var tdEl = document.createElement('td');
+
+  for(var i = 0; i < 15; i++) { // help from Nicole & Rick
+    var totalCookSold = 0;
+    for(var x = 0; x < allCookStores.length; x++){
+      totalCookSold = allCookStores[i].cookSold[x] + totalCookSold;
+    }
+    thEl = document.createElement('th');
+    thEl.textContent = totalCookSold;
+    tfootEl.appendChild(trEl);
+    trEl.appendChild(thEl);
+  }
+  storesContainer.appendChild(trEl);
+};
 
 // function calls
 headerHours();
