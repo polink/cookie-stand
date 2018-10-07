@@ -9,9 +9,9 @@
 //Array for hours open
 //STRETCH: make the # of hours dynamic
 //need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
-var headerRow = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p'];
+var headerRow = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p','Daily Total'];
 var allStoreContainer = []; //new container function - better naming
-var allCookStores = [pikes,seaTac,seaCtr,capHill,alki];
+var allCookStores = [];
 
 /*10-01 notes from class
 - change name of hoursOpen array to something like headerRow
@@ -32,6 +32,8 @@ var Store = function(name, minCust, maxCust, avgCook){
   this.cookSold = []; //# of cookies sold at this store per hour
 
   allStoreContainer.push(this);
+  this.cookSoldData();
+  
 //  allCookStores.push(this.name);
 };
 
@@ -80,13 +82,17 @@ Store.prototype.calcCustPerHour = function(){
 };
 
 Store.prototype.calcCookSold = function(){ //calculating cookies sold each hour
+  var rowTotal = 0;
   for(var i = 0; i < 15; i++){
     /* other students did this.hoursOpen to calculate how many hours/day store was open */
     this.cookSold.push(this.calcCustPerHour());
+    rowTotal += this.cookSold[i];
+    // console.log(this.cookSold[i]);
   }
+  this.cookSold.push(rowTotal);
 };
 
-// make function for cookSold data in each cell
+// function for taking cookSold array and appending to table
 Store.prototype.cookSoldData = function(){
   this.calcCookSold();
 
@@ -98,7 +104,7 @@ Store.prototype.cookSoldData = function(){
 
   // 3. Give element content
   var thEl = document.createElement('th'); //table header
-  thEl.textContent = this.name;
+  thEl.textContent = this.name; //prints first for names
   trEl.appendChild(thEl); //append table header to row
 
   //giving table td of avg# of purchased cookies per cust
@@ -115,49 +121,56 @@ Store.prototype.cookSoldData = function(){
 
 //=======================
 // Function that renders all the stores
-var renderAllStores = function(){
-  allStoreContainer.push(pikes.cookSoldData(), capHill.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData());
-};
+// var renderAllStores = function(){
+//   allStoreContainer.push(pikes.cookSoldData(), capHill.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData());
+// };
 
-var renderNewStore = function(){
+var renderNewStore = function(){ // ???
   allStoreContainer.push((allStoreContainer.length - 1).cookSoldData());
 };
 
 
 // store constructor data
-var pikes = new Store('1st and Pike',23,65,6.3,[]);
-var capHill = new Store('Capitol Hill',20,38,2.3,[]);
-var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
-var seaCtr = new Store('Seattle Center',11,38,3.7,[]);
-var alki = new Store('Alki',2,16,4.6,[]);
+new Store('1st and Pike',23,65,6.3);
+new Store('Capitol Hill',20,38,2.3);
+new Store('SeaTac Airport',3,24,1.2);
+new Store('Seattle Center',11,38,3.7);
+new Store('Alki',2,16,4.6);
 
-//Function to figure out Total row
+//Function to figure out Total footer row
 var totals = function(){
   var storesContainer = document.getElementById('cookTable');
   var tfootEl = document.createElement('tfoot');
   var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Totals';
-  tfootEl.appendChild(thEl);
-  
+  trEl.setAttribute('id','footer');
   var tdEl = document.createElement('td');
+  tdEl.textContent = 'Totals';
+  trEl.appendChild(tdEl);
+  
+  // var tdEl = document.createElement('td');
+  // var totallyTotals = 0;
 
-  for(var i = 0; i < 15; i++) { // help from Nicole & Rick
+  for(var i = 0; i < 16; i++) { // help from Nicole & Rick
     var totalCookSold = 0;
-    for(var x = 0; x < allCookStores.length; x++){
-      totalCookSold = allCookStores[i].cookSold[x] + totalCookSold;
+    for(var x = 0; x < allStoreContainer.length; x++){
+      totalCookSold = allStoreContainer[x].cookSold[i] + totalCookSold;
+      // totallyTotals += totalCookSold;
     }
-    thEl = document.createElement('th');
-    thEl.textContent = totalCookSold;
+    tdEl = document.createElement('td');
+    tdEl.textContent = totalCookSold;
     tfootEl.appendChild(trEl);
-    trEl.appendChild(thEl);
+    trEl.appendChild(tdEl);
   }
+  // document.getElementById('footer');
+  tdEl = document.createElement('td');
+  storesContainer.appendChild(tdEl);
+  // tdEl.textContent = totallyTotals;
   storesContainer.appendChild(trEl);
 };
 
 // function calls
 headerHours();
-renderAllStores();
+// renderAllStores();
 totals();
 
 // Forms
@@ -170,12 +183,23 @@ var handleMakeStore = function(eventStore){
   var minCustomers = parseInt(eventStore.target.minCustomers.value);
   var maxCustomers = parseInt(eventStore.target['max-Customers'].value);
   var averageCookies = parseInt(eventStore.target.averageCookies.value);
-  var newStore = new Store(storeName, minCustomers, maxCustomers, averageCookies);
+  // make new stuff, but clear footer row before adding new data
+  clearTable();
+  clearAtt();
+  new Store(storeName, minCustomers, maxCustomers, averageCookies);
   console.log(allCookStores);
-
-  allStoreContainer.push(newStore.cookSoldData());
+  totals();
+  // allStoreContainer.push(newStore.cookSoldData());
 };
 // likely need other code to make the table footer/total dynamic and populate new numbers that include the new store
+
+var clearTable = function(){
+  document.getElementById('footer').innerHTML = '';
+};
+var clearAtt = function(){
+  var newFoot = document.getElementById('footer');
+  newFoot.setAttribute('id','');
+}
 
 storeForm.addEventListener('submit', handleMakeStore);
 
