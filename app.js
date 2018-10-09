@@ -7,22 +7,10 @@
 // 4. append newly created element to container
 
 //Array for hours open
-//STRETCH: make the # of hours dynamic
-//need to take array and plug it into a function that prints out into the table, similar to how calcCookSold gets pushed into the table
 var headerRow = ['Locations','6:00a', '7:00a','8:00a','9:00a','10:00a','11:00a','12:00p','13:00p','14:00p','15:00p','16:00p','17:00p','18:00p','19:00p','20:00p','Daily Total'];
 var allStoreContainer = []; //new container function - better naming
 var allCookStores = [];
 
-/*10-01 notes from class
-- change name of hoursOpen array to something like headerRow
-- commenting is great!
-- steps excellent! rendering 'li's can backfire with plugging in new elements in rendering
-- fixing headerHours, likely will have to rename as well
-    -fixing variable name for thEl
-- think about code in English
-- adding container push to constructor helps with DRY
-- pushes to container, but doesn't add newest data
-*/
 //Store constructor function
 var Store = function(name, minCust, maxCust, avgCook){
   this.name = name; //name of store
@@ -38,18 +26,6 @@ var Store = function(name, minCust, maxCust, avgCook){
 };
 
 var storeForm = document.getElementById('newCookStoreForm');
-
-
-// var storesContainer = document.getElementById('cookTable');
-
-// for(var i in hoursOpen.length){
-//   var thEl = document.createElement('th');
- 
-//   //thEl = document.createElement('th');
-//   tdEl.textContent = hoursOpen[i];
-//   trEl.appendChild(tdEl);
-// }
-// storesContainer.appendChild(trEl);
 
 // function to do header in first line of cookTable
 var headerHours = function () {
@@ -121,10 +97,6 @@ Store.prototype.cookSoldData = function(){
 
 //=======================
 // Function that renders all the stores
-// var renderAllStores = function(){
-//   allStoreContainer.push(pikes.cookSoldData(), capHill.cookSoldData(),seaTac.cookSoldData(),seaCtr.cookSoldData(),alki.cookSoldData());
-// };
-
 var renderNewStore = function(){ // ???
   allStoreContainer.push((allStoreContainer.length - 1).cookSoldData());
 };
@@ -189,9 +161,7 @@ var handleMakeStore = function(eventStore){
   new Store(storeName, minCustomers, maxCustomers, averageCookies);
   console.log(allCookStores);
   totals();
-  // allStoreContainer.push(newStore.cookSoldData());
 };
-// likely need other code to make the table footer/total dynamic and populate new numbers that include the new store
 
 var clearTable = function(){
   document.getElementById('footer').innerHTML = '';
@@ -199,7 +169,7 @@ var clearTable = function(){
 var clearAtt = function(){
   var newFoot = document.getElementById('footer');
   newFoot.setAttribute('id','');
-}
+};
 
 storeForm.addEventListener('submit', handleMakeStore);
 
